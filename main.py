@@ -61,8 +61,15 @@ def delete_program_user_acc(conn, user_id):
 
         if hashed_pw == user[2]:
             print('Delete operation is confirmed!')
+            if db_opr.delete_program_user(conn, user_id):
+                print('Deletion is successful!')
+                break
+            else:
+                print('Incorrect password! Try again.')
         else:
             print('Incorrect password! Try again.')
+    welcome_page(conn)
+    
 
 
 def recognized_user(conn, user_id):
