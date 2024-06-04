@@ -11,7 +11,7 @@ def add_new_stored_password(conn, user_id):
     platform = input('Please enter the name of the platform: ')
     username = input('Please enter the username you use in the platform: ')
     email = input('Please enter the email you use in the platform: ')
-    password = input('Please enter the email you use in the platform: ')
+    password = input('Please enter the password you use in the platform: ')
 
     if db_opr.add_stored_password(conn, user_id, platform, username, email, password):
         print('New account for the platform {} successfully added!'.format(platform))
