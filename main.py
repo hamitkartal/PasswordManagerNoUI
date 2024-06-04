@@ -7,12 +7,16 @@ def hash_password(pw):
     h.update(pw.encode())
     return h.hexdigest()
 
-def add_new_stored_password(conn):
+def add_new_stored_password(conn, user_id):
     platform = input('Please enter the name of the platform: ')
     username = input('Please enter the username you use in the platform: ')
     email = input('Please enter the email you use in the platform: ')
     password = input('Please enter the email you use in the platform: ')
 
+    if db_opr.add_stored_password(conn, user_id, platform, username, email, password):
+        print('New account for the platform {} successfully added!'.format(platform))
+    else:
+        print('Something went wrong! Please try again later')
 
 
 def update_password(conn):
@@ -83,6 +87,8 @@ def recognized_user(conn, user_id):
     stored_passwords = db_opr.get_stored_passwords(conn, user_id)
     if stored_passwords:
         print('Here is the list of your stored passwords')
+        print('ID | USER ID | PLATFORM NAME | USERNAME | EMAIL | PASSWORD | LAST UPDATE')
+        print(stored_passwords, sep='\n')
     else:
         print('No stored password found in your account!')
 
@@ -98,7 +104,7 @@ def recognized_user(conn, user_id):
         if option == '1':
             break
         elif option == '2':
-            add_new_stored_password(conn)
+            add_new_stored_password(conn, user_id)
         elif option == '3':
             update_password(conn)
         elif option == '4':

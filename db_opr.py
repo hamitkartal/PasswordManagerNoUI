@@ -80,6 +80,18 @@ def update_user_pw():
 ############ OPERATIONS FOR THE TABLE "STORED_PASSWORDS" ############
 #####################################################################
 
+def add_stored_password(conn, user_id, platform, un, email, pw):
+    try:
+        cu = conn.cursor()
+        query = 'INSERT INTO stored_passwords (user_id, platform_name, username, email, password, last_update) \
+                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)'
+        cu.execute(query, (user_id, platform, un, email, pw))
+        conn.commit()
+    except Error as e:
+        print('An error occured: {}'.format(e))
+        return False
+    return True
+
 # gets all the stored_password for given user id
 def get_stored_passwords(conn, user_id):
     cu = conn.cursor()
