@@ -7,6 +7,14 @@ def hash_password(pw):
     h.update(pw.encode())
     return h.hexdigest()
 
+def add_new_stored_password(conn):
+    platform = input('Please enter the name of the platform: ')
+    username = input('Please enter the username you use in the platform: ')
+    email = input('Please enter the email you use in the platform: ')
+    password = input('Please enter the email you use in the platform: ')
+
+
+
 def update_password(conn):
     while True:
         row_id = input('\nPlease enter the id of the row you want to update')
@@ -70,8 +78,6 @@ def delete_program_user_acc(conn, user_id):
             print('Incorrect password! Try again.')
     welcome_page(conn)
     
-
-
 def recognized_user(conn, user_id):
     print('Hello user')
     stored_passwords = db_opr.get_stored_passwords(conn, user_id)
@@ -83,18 +89,21 @@ def recognized_user(conn, user_id):
     while True:
         print('What do you desire to do?')
         print('(1) Log out')
-        print('(2) Update a stored password')
-        print('(3) Delete a stored password')
-        print('(4) Delete my whole account')
+        print('(2) Add a new password')
+        print('(3) Update a stored password')
+        print('(4) Delete a stored password')
+        print('(5) Delete my whole account')
         option = input('Option: ')
 
         if option == '1':
             break
         elif option == '2':
-            update_password(conn)
+            add_new_stored_password(conn)
         elif option == '3':
-            delete_password(conn)
+            update_password(conn)
         elif option == '4':
+            delete_password(conn)
+        elif option == '5':
             delete_program_user_acc(conn, user_id)
         else:
             print('Invalid option! Please try again')
@@ -108,15 +117,15 @@ def login(conn):
         password = input('Please enter your password: ')
 
         hashed_pw = hash_password(password)
-        user_id = db_opr.check_user(conn, username, hashed_pw)
+        user_id_tuple = db_opr.check_user(conn, username, hashed_pw)
 
-        if user_id:
+        if user_id_tuple:
             break
 
         print('Username or password might be incorrect')
         print('Please try again\n')
     
-    recognized_user(conn, user_id)
+    recognized_user(conn, user_id_tuple[0])
 
 
 def new_user(conn):
