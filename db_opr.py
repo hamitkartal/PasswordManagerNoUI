@@ -1,14 +1,19 @@
 from sqlite3 import Error
 
+############ OPERATIONS FOR THE TABLE "USERS" ############
+#####################################################################
+
 # checks if username&password pair
-# exists in the db, in the logging
-# in phase
+# exists in the db, in the logging phase
+# returns id, if exists
+# returns None, otherwise
+
 def check_user(conn, un, h_pw):
     try:
         query = 'SELECT id FROM users WHERE username = ? AND password = ? LIMIT 1'
         cu = conn.cursor()
         cu.execute(query, (un, h_pw))
-        return cu.fetchone() is not None
+        return cu.fetchone()
     except Error as e:
         print('An error occured {e}'.format(e))
         return None
@@ -67,6 +72,8 @@ def delete_user():
 def update_user_pw():
     pass
 
+############ OPERATIONS FOR THE TABLE "STORED_PASSWORDS" ############
+#####################################################################
 def get_stored_passwords(conn, user_id):
     cu = conn.cursor()
     query = 'SELECT * FROM stored_passwords WHERE id = ?'
