@@ -88,7 +88,7 @@ def recognized_user(conn, user_id):
     if stored_passwords:
         print('Here is the list of your stored passwords')
         print('ID | USER ID | PLATFORM NAME | USERNAME | EMAIL | PASSWORD | LAST UPDATE')
-        print(stored_passwords, sep='\n')
+        print(*stored_passwords, sep='\n')
     else:
         print('No stored password found in your account!')
 
