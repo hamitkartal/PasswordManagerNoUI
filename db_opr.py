@@ -31,6 +31,7 @@ def add_user(conn, un, h_pw):
         print('An error occured {e}'.format(e))
         return None
 
+# returns the complete row based on the user id
 def get_program_user(conn, user_id):
     try:
         cu = conn.cursor()
@@ -41,6 +42,10 @@ def get_program_user(conn, user_id):
         print('An error occured {}'.format(e))
         return None
 
+# deletes the program user
+# utilizes <delete_stored_password_by_user_id>
+# function. purpose is not leaving any stored_password
+# for a deleted user
 def delete_program_user(conn, user_id):
     if not delete_stored_password_by_user_id(conn, user_id):
         print('Stored passwords of the user could not be deleted from stored_passwords table')
@@ -74,12 +79,15 @@ def update_user_pw():
 
 ############ OPERATIONS FOR THE TABLE "STORED_PASSWORDS" ############
 #####################################################################
+
+# gets all the stored_password for given user id
 def get_stored_passwords(conn, user_id):
     cu = conn.cursor()
-    query = 'SELECT * FROM stored_passwords WHERE id = ?'
+    query = 'SELECT * FROM stored_passwords WHERE user_id = ?'
     cu.execute(query, (user_id, ))
     return cu.fetchall()
 
+# checks if a given id exists in the "stored_passwords" table
 def check_row_id(conn, row_id):
     try:
         cu = conn.cursor()
@@ -90,6 +98,7 @@ def check_row_id(conn, row_id):
         print('An error occured {e}'.format(e))
         return None
 
+# updates values for a given stored_password_id (row_id)
 def update_account_values(conn, row_id, platform, username, email, password):
     try:
         cu = conn.cursor()
@@ -105,6 +114,7 @@ def update_account_values(conn, row_id, platform, username, email, password):
         return False
     return True
 
+# get a single row (account) by given a row_id (stored_password id)
 def get_account_row(conn, row_id):
     try:
         cu = conn.cursor()
@@ -119,6 +129,7 @@ def get_account_row(conn, row_id):
         print('An error occured: {}'.format(e))
         return None
 
+# deletes a single row (account) by given a row_id (stored_password id)
 def delete_stored_password(conn, row_id):
     try:
         cu = conn.cursor()
@@ -133,6 +144,7 @@ def delete_stored_password(conn, row_id):
         return False
     return True
 
+# deletes all the rows (account) by given user_id
 def delete_stored_password_by_user_id(conn, user_id):
     try:
         cu = conn.cursor()
