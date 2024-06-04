@@ -140,15 +140,11 @@ def welcome_page(conn):
     while True:
         print('Press 1 for login')
         print('Press 2 for register')
-        try:
-            option = input('\nOption: ')
-        except ValueError:
+        option = input('\nOption: ')
+        if option not in ('1', '2'):
             print('Invalid input, please try again')
         else:
-            if option not in ('1', '2'):
-                print('Invalid input, please try again')
-            else:
-                break
+            break
 
     if option == '1':
         login(conn)
